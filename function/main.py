@@ -19,17 +19,17 @@ def tiima_function(request):
         if TIIMA_ACTION == 'status':
             return jsonify(tiima.user_state())
 
-        elif TIIMA_ACTION == 'enter':
-            if status['statusCode'] != 'In':
-                return jsonify(tiima.user_enter())
-            else:
-                return jsonify({'error': 'User already logged in'}), 400
-
-        elif TIIMA_ACTION == 'leave':
-            if status['statusCode'] != 'Out':
+        elif TIIMA_ACTION == 'in_out':
+            if status['statusCode'] == 'In':
                 return jsonify(tiima.user_leave())
             else:
-                return jsonify({'error': 'User is not logged in'}), 400
+                return jsonify(tiima.user_enter())
+
+        elif TIIMA_ACTION == 'lunch':
+            if status['statusCode'] == 'Lunch':
+                return jsonify(tiima.user_from_lunch())
+            else:
+                return jsonify(tiima.user_to_lunch())
     
     return jsonify({'error': 'Missing needed payload.'}), 400
 

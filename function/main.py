@@ -16,6 +16,8 @@ def tiima_function(request):
         
         if TIIMA_ACTION == 'enter':
             return jsonify(tiima.user_enter())
+        elif TIIMA_ACTION == 'leave':
+            return jsonify(tiima.user_leave())
     
     return jsonify({'error': 'Missing needed payload.'}), 400
 

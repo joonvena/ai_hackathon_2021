@@ -4,5 +4,5 @@ steps:
   args: [-c, 'pip install -r requirements.txt']
   dir: 'function'
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['functions', 'deploy', 'tiimafunction', '--trigger-http', '--runtime', 'python37', '--entry-point', 'tiima_function']
+  args: ['functions', 'deploy', 'tiimafunction', '--trigger-http', '--region', 'europe-west1', '--runtime', 'python37', '--entry-point', 'tiima_function']
   dir: 'function'

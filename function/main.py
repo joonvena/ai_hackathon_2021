@@ -13,11 +13,23 @@ def tiima_function(request):
     if TIIMA_COMPANY_ID and TIIMA_API_KEY and TIIMA_USERNAME and TIIMA_PASSWORD:
         tiima = Tiima(company_id=TIIMA_COMPANY_ID, api_key=TIIMA_API_KEY)
         tiima.login(username=TIIMA_USERNAME, password=TIIMA_PASSWORD)
-        
-        if TIIMA_ACTION == 'enter':
-            return jsonify(tiima.user_enter())
+
+        status = tiima.user_state()
+
+        if TIIMA_ACTION == 'status':
+            return jsonify(tiima.user_state())
+
+        elif TIIMA_ACTION == 'enter':
+            if status['statusCode'] != 'In':
+                return jsonify(tiima.user_enter())
+            else:
+                return jsonify({'error': 'User already logged in'}), 400
+
         elif TIIMA_ACTION == 'leave':
-            return jsonify(tiima.user_leave())
+            if status['statusCode'] != 'Out':
+                return jsonify(tiima.user_leave())
+            else:
+                return jsonify({'error': 'User is not logged in'}), 400
     
     return jsonify({'error': 'Missing needed payload.'}), 400
 

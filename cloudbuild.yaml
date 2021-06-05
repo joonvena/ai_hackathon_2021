@@ -1,0 +1,8 @@
+steps:
+- name: 'docker.io/library/python:3.7'
+  entrypoint: /bin/sh
+  args: [-c, 'pip install -r requirements.txt']
+  dir: 'function'
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['functions', 'deploy', 'tiimafunction', '--trigger-http', '--runtime', 'python37', '--entry-point', 'tiima_function']
+  dir: 'function'
